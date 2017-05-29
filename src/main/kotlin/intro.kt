@@ -176,11 +176,10 @@ fun classDefinitions() {
 
 fun properties() {
     class Person {
-        // public is the default for properties
-        public var age: Int = 0
+        // Public members are accessed as properties
+        var age: Int = 0
 
         var name: String = ""
-            get
             set(value) {
                 if (value == "Bad Name")
                     throw IllegalArgumentException()
