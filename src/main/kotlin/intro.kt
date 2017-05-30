@@ -18,6 +18,8 @@ fun main(args: Array<String>) {
     operatorOverloading()
 
     extensionMethods()
+
+    statics()
 }
 
 /**
@@ -54,7 +56,7 @@ fun ifExpressions() {
 }
 
 /**
- * When Expressions / Switch statments
+ * When Expressions / Switch statements
  */
 fun whenExpressions() {
     val mySpecialNumbers = listOf(1, 5, 8)
@@ -153,7 +155,7 @@ fun nullSafety() {
     val lengthOrDefaultValue = b?.length ?: -1
 
     // !!Operator to force non-null:
-    val lengthOrThrow = b!!.length
+//    val lengthOrThrow = b!!.length
 
     // Safe casts:
     val someUnkownType: Any = "Mystery Box" // Kotlin.Any is Kotlin's equivalent to 'Object'
@@ -210,29 +212,32 @@ fun classDefinitions() {
     */
 
     // Kotlin equivalent:
-    class Person(var name: String, var age: Int)
+    class Person(val name: String, val age: Int)
 
     val jack = Person("Jack", 1)
 
     // With default values and named arguments:
-    class PersonV2(var name: String = "unknown", var age: Int = 0)
+    class PersonV2(val name: String = "unknown", val age: Int = 0)
 
-    val jackV2 = PersonV2(name = "Jack")
+    val jackV2 = PersonV2("Jack")
+    val johnDoeV2 = PersonV2(age = 21)
 
     // Even better with data classes which automatically creates `#equals`, `#hashCode`, `#toString` and `#toCopy`:
     data class PersonV3(val name: String = "", val age: Int = 0)
 
     val jackV3 = PersonV3(name = "Jack", age = 1)
-    val olderJack = jackV3.copy(age = 2)
+    val olderJackV3 = jackV3.copy(age = 2)
     println(jackV3.toString()) // User(name=Jack, age=1)
 
-    // Bonus [destructuring](https://kotlinlang.org/docs/reference/multi-declarations.html) through automatically generated component functions:
+    // Bonus [destructuring](https://kotlinlang.org/docs/reference/multi-declarations.html) through automatically
+    // generated component functions:
     val (name, age) = jackV3
 }
 
 fun properties() {
     class Person {
-        // Public members are accessed as properties
+        // Public members are accessed as properties, this is done automatically when interacting with
+        // Java and there are getters and setters.
         var age: Int = 0
 
         var name: String = ""
@@ -311,4 +316,21 @@ fun operatorOverloading() {
 
     // All operators are available, e.g. +, *, ++, +=, [], ()
     // https://kotlinlang.org/docs/reference/operator-overloading.html
+}
+
+// Can't define (companion) objects in a local scope
+class PersonWithStatics(val name: String) {
+    companion object {
+        val acceptableNames = listOf("Jan", "Piet")
+    }
+}
+
+object PersonAsSingleton {
+    val name = "Christopher"
+}
+
+fun statics() {
+    PersonWithStatics.acceptableNames
+
+    println("There can be only one: ${PersonAsSingleton.name}")
 }
