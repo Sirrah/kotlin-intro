@@ -7,6 +7,8 @@ fun main(args: Array<String>) {
 
     whenExpressions()
 
+    lambdas()
+
     nullSafety()
 
     classDefinitions()
@@ -76,6 +78,54 @@ fun whenExpressions() {
         x == 5 -> print("x is five")
         x != 3 -> print("x is not three")
     }
+}
+
+
+fun lambdas() {
+    val numbers = listOf(0, 1, 2, 3, 4)
+
+    println("\nFunctional operators")
+    numbers.filter { number -> number > 1 }
+            .map { it * 2 }
+            .map {
+                print(it)
+                it
+            }
+            .take(1) // This will still print 4, 6, 8. These operators are not lazy.
+
+    println("\nUse lazy operators through the Sequence interface")
+    Sequence { numbers.listIterator() }
+            .filter { number -> number > 1 }
+            .map { it * 2 }
+            .map {
+                print(it)
+                it
+            }
+            .take(1)
+            .toList() // will print '4'
+
+
+    fun testMethod() {
+        Thread.sleep(500)
+    }
+
+    fun stopwatch(block: () -> Unit) {
+        val t1 = System.currentTimeMillis()
+
+        block()
+
+        val t2 = System.currentTimeMillis()
+
+        println("\nExecution took ${t2 - t1} ms")
+    }
+
+    // Use a lambda, if the last argument is a lambda, you can omit the braces
+    stopwatch {
+        testMethod()
+    }
+
+    // Or use a method reference (same syntax as Java8)
+    stopwatch(::testMethod)
 }
 
 /**
