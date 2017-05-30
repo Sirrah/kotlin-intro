@@ -137,26 +137,32 @@ fun nullSafety() {
 //    // Non-null variable definition (default):
 //    var a: String = "abc"
 //    a = null // compilation error
-//
-//    // Nullable variable definition:
-//    var b: String? = "abc"
-//    b = null // ok
-//
-//    val l = b.length // error: variable 'b' can be null
-//
-//    // Besides using standard null - guard statements you have a few more options :
-//
-//    // Safe call operator:
-//    train?.wreck?.averted?.maybe
-//
-//    // Elvis operator:
-//    val l = b?.length ?: -1
-//
-//    // !!Operator:
-//    val l = b!!.length
-//
-//    // Safe casts:
-//    val c: String? = maybeNull as? String
+
+    // Nullable variable definition:
+    var b: String? = "abc"
+    b = null // ok
+
+//    val length = b.length // error: variable 'b' can be null
+
+    // Besides using standard null - guard statements you have a few more options :
+
+    // Safe call operator:
+    b?.toInt()?.plus(5)?.toString()
+
+    // Elvis operator:
+    val lengthOrDefaultValue = b?.length ?: -1
+
+    // !!Operator to force non-null:
+    val lengthOrThrow = b!!.length
+
+    // Safe casts:
+    val someUnkownType: Any = "Mystery Box" // Kotlin.Any is Kotlin's equivalent to 'Object'
+    val c: String? = someUnkownType as? String
+
+    // Can use the safe call operator as an alternative to null-guard statements
+    b?.let { found ->
+        println("Found string with lenght: ${found.length}")
+    }
 }
 
 /**
@@ -238,6 +244,7 @@ fun properties() {
 
         private var numbers: Int = 1234
         private var letters: String = "AB"
+
         var postCode: String
             get() = "$numbers $letters"
             set(value) {
@@ -255,7 +262,7 @@ fun properties() {
 
     println("${user.name} lives at ${user.postCode}")
 
-    // Or using #with:
+    // Or using #with: (also look at #let, #apply, #repeat, ...)
     with(user) {
         name = "Jan"
         postCode = "7142ed"
