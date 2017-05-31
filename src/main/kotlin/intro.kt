@@ -161,12 +161,12 @@ fun nullSafety() {
 //    val lengthOrThrow = b!!.length
 
     // Safe casts:
-    val someUnkownType: Any = "Mystery Box" // Kotlin.Any is Kotlin's equivalent to 'Object'
-    val c: String? = someUnkownType as? String
+    val someUnknownType: Any = "Mystery Box" // Kotlin.Any is Kotlin's equivalent to 'Object'
+    val c: String? = someUnknownType as? String
 
     // Can use the safe call operator as an alternative to null-guard statements
     b?.let { found ->
-        println("Found string with lenght: ${found.length}")
+        println("Found string with length: ${found.length}")
     }
 }
 
