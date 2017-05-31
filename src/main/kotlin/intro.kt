@@ -1,3 +1,6 @@
+/**
+ * Code available at https://github.com/Sirrah/kotlin-intro
+ */
 fun main(args: Array<String>) {
     print("Hello World!")
 
