@@ -1,8 +1,10 @@
 /**
  * Code available at https://github.com/Sirrah/kotlin-intro
  */
-fun main(args: Array<String>) {
-    print("Hello World!")
+fun main() {
+    print("No arguments needed!")
+
+    // fun main(args: Array<String>) {
 
     forLoops()
 
@@ -168,6 +170,16 @@ fun nullSafety() {
     b?.let { found ->
         println("Found string with length: ${found.length}")
     }
+
+    // Smart casts:
+    val d: String? = "123"
+    if (d != null)
+        println(d.toInt())
+
+    // With 'contracts' we can even add these compiler hints through 'regular' methods. Rudimentary system right now
+    // but really makes helper methods like these more useful.
+    if (!d.isNullOrEmpty())
+        println(d.toInt())
 }
 
 /**
@@ -214,7 +226,7 @@ fun classDefinitions() {
     }
     */
 
-    // Kotlin equivalent:
+    // Kotlin equivalent (but immutable):
     class Person(val name: String, val age: Int)
 
     val jack = Person("Jack", 1)
@@ -288,7 +300,7 @@ fun extensionMethods() {
     val jack = Person("Jack", 1)
 
     // Easily add helper methods to existing classes:
-    fun Person.sayHello() = println("Hello, my name is ${name}")
+    fun Person.sayHello() = println("Hello, my name is $name")
     jack.sayHello()
 
     // Easily display a Toast message in Android (example from Anko)
