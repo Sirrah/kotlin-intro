@@ -4,7 +4,7 @@
 fun main() {
     print("No arguments needed!")
 
-    // fun main(args: Array<String>) {
+    // fun main(args: Array<String>) { }
 
     forLoops()
 
@@ -34,13 +34,16 @@ fun forLoops() {
     println("For Loops and Ranges")
     println("Works with Collections:")
     val collection = listOf(1, 5, 8)
-    for (item in collection) print(item)
+    for (item in collection)
+        print(item)
 
     println("\nRanges are also Collections")
-    for (i in 1..4) print(i) // prints "1234"
+    for (i in 1..4)
+        print(i) // prints "1234"
 
     println("\nRanges can be created in reverse and/or skip numbers:")
-    for (i in 4 downTo 1 step 2) print(i) // prints "42"
+    for (i in 4 downTo 1 step 2)
+        print(i) // prints "42"
 }
 
 /**
@@ -67,7 +70,7 @@ fun whenExpressions() {
     val mySpecialNumbers = listOf(1, 5, 8)
 
     // Instead of `switch` there is `when`:
-    val x = 3
+    val x = 4
     val myString = when (x) {
         0, 1 -> "x == 0 or x == 1"
         in 1..10 -> "x is in the range"
@@ -79,6 +82,7 @@ fun whenExpressions() {
         !in 10..20 -> "x is outside the range"
         else -> "none of the above"
     }
+    println("\nWhen x=$x => $myString")
 
     // No initial argument required, just add any boolean expression:
     when {
@@ -86,7 +90,6 @@ fun whenExpressions() {
         x != 3 -> print("x is not three")
     }
 }
-
 
 fun lambdas() {
     val numbers = listOf(0, 1, 2, 3, 4)
@@ -111,9 +114,14 @@ fun lambdas() {
             .take(1)
             .toList() // will print '4'
 
+    println("\nCreate convenient helper methods")
 
-    fun testMethod() {
-        Thread.sleep(500)
+    fun factorial(n: Long, accum: Long = 1): Long {
+        return if (n <= 1) {
+            n * accum
+        } else {
+            factorial(n - 1, n * accum)
+        }
     }
 
     fun stopwatch(block: () -> Unit) {
@@ -123,16 +131,45 @@ fun lambdas() {
 
         val t2 = System.currentTimeMillis()
 
-        println("\nExecution took ${t2 - t1} ms")
+        println("Execution took ${t2 - t1} ms")
     }
 
     // Use a lambda, if the last argument is a lambda, you can omit the braces
     stopwatch {
-        testMethod()
+        factorial(1000)
     }
 
-    // Or use a method reference (same syntax as Java8)
-    stopwatch(::testMethod)
+    // Or use a method reference (same syntax as Java8) if there are no method arguments
+    // stopwatch(::factorial)
+
+    println("Tail recursion benchmark")
+
+    // In order to apply the compiler optimization the method needs
+    // to be in the right form and it needs the tailrec keyword.
+    //
+    // With these pre-conditions the compiler will be able to compile
+    // this to a while-loop giving a speed boost and preventing a
+    // stack overflow.
+    tailrec fun factorialTailRec(n: Long, accum: Long = 1): Long {
+        return if (n <= 1) {
+            n * accum
+        } else {
+            factorialTailRec(n - 1, n * accum)
+        }
+    }
+
+    val n = 50_000L
+    stopwatch {
+        try {
+            factorial(n)
+        } catch (e: StackOverflowError) {
+            println(e)
+        }
+    }
+
+    stopwatch {
+        factorialTailRec(n)
+    }
 }
 
 /**
@@ -171,13 +208,15 @@ fun nullSafety() {
         println("Found string with length: ${found.length}")
     }
 
-    // Smart casts:
+    // Smart casts, the compiler will let you use a nullable type as a
+    // non-null type whenever that's safe.
     val d: String? = "123"
     if (d != null)
         println(d.toInt())
 
-    // With 'contracts' we can even add these compiler hints through 'regular' methods. Rudimentary system right now
-    // but really makes helper methods like these more useful.
+    // With 'contracts' we can even provide the compiler with hints so this can work
+    // with helper methods as well.
+    // [Contracts](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.contracts/index.html)
     if (!d.isNullOrEmpty())
         println(d.toInt())
 }
