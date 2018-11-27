@@ -380,7 +380,7 @@ class PersonWithStatics(val name: String) {
 }
 
 object PersonAsSingleton {
-    val name = "Christopher"
+    const val name = "Christopher"
 }
 
 fun statics() {
