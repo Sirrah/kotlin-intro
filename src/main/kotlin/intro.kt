@@ -96,23 +96,23 @@ fun lambdas() {
 
     println("\nFunctional operators")
     numbers.filter { number -> number > 1 }
-            .map { it * 2 }
-            .map {
-                print(it)
-                it
-            }
-            .take(1) // This will still print 4, 6, 8. These operators are not lazy.
+        .map { it * 2 }
+        .map {
+            print(it)
+            it
+        }
+        .take(1) // This will still print 4, 6, 8. These operators are not lazy.
 
     println("\nUse lazy operators through the Sequence interface")
     Sequence { numbers.listIterator() }
-            .filter { number -> number > 1 }
-            .map { it * 2 }
-            .map {
-                print(it)
-                it
-            }
-            .take(1)
-            .toList() // will print '4'
+        .filter { number -> number > 1 }
+        .map { it * 2 }
+        .map {
+            print(it)
+            it
+        }
+        .take(1)
+        .toList() // will print '4'
 
     println("\nCreate convenient helper methods")
 
