@@ -8,6 +8,6 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:1.3.10"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.10"
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
