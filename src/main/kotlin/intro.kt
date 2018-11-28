@@ -2,7 +2,7 @@
  * Code available at https://github.com/Sirrah/kotlin-intro
  */
 fun main() {
-    print("No arguments needed!")
+    println("No arguments needed!")
 
     // fun main(args: Array<String>) { }
 
