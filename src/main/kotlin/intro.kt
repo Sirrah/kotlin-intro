@@ -95,16 +95,18 @@ fun lambdas() {
     val numbers = listOf(0, 1, 2, 3, 4)
 
     println("\nFunctional operators")
-    numbers.filter { number -> number > 1 }
+    numbers
+        .filter { number -> number > 1 }
         .map { it * 2 }
         .map {
             print(it)
             it
         }
-        .take(1) // This will still print 4, 6, 8. These operators are not lazy.
+        .take(1) // This will still print '468', the operators are not lazy by default.
 
-    println("\nUse lazy operators through the Sequence interface")
-    Sequence { numbers.listIterator() }
+    println("\nUse lazy evaluation through the Sequence interface")
+    numbers
+        .asSequence()
         .filter { number -> number > 1 }
         .map { it * 2 }
         .map {
@@ -112,7 +114,7 @@ fun lambdas() {
             it
         }
         .take(1)
-        .toList() // will print '4'
+        .toList() // will print only '4'
 
     println("\nCreate convenient helper methods")
 
@@ -388,3 +390,9 @@ fun statics() {
 
     println("There can be only one: ${PersonAsSingleton.name}")
 }
+
+// Also look into coroutines:
+// https://kotlinlang.org/docs/reference/coroutines-overview.html
+//
+// and Kotlin/Native:
+// https://kotlinlang.org/docs/reference/native-overview.html
