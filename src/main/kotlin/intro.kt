@@ -54,13 +54,6 @@ fun ifExpressions() {
     val a = 1
     val b = 2
     val max = if (a > b) a else b
-
-    class Person(val name: String?)
-
-    val johnDoe: Person? = Person(null)
-
-    // There is the 'Elvis' operator:
-    val name = johnDoe?.name ?: "Unknown"
 }
 
 /**
@@ -118,14 +111,6 @@ fun lambdas() {
 
     println("\nCreate convenient helper methods")
 
-    fun factorial(n: Long, accum: Long = 1): Long {
-        return if (n <= 1) {
-            n * accum
-        } else {
-            factorial(n - 1, n * accum)
-        }
-    }
-
     fun stopwatch(block: () -> Unit) {
         val t1 = System.currentTimeMillis()
 
@@ -134,6 +119,14 @@ fun lambdas() {
         val t2 = System.currentTimeMillis()
 
         println("Execution took ${t2 - t1} ms")
+    }
+
+    fun factorial(n: Long, accum: Long = 1): Long {
+        return if (n <= 1) {
+            n * accum
+        } else {
+            factorial(n - 1, n * accum)
+        }
     }
 
     // Use a lambda, if the last argument is a lambda, you can omit the braces
@@ -180,6 +173,8 @@ fun lambdas() {
  * Uncomment the method body, it contains compiler errors to illustrate null safety.
  */
 fun nullSafety() {
+    println("\nNull-safety")
+
 //    // Non-null variable definition (default):
 //    var a: String = "abc"
 //    a = null // compilation error
@@ -206,8 +201,8 @@ fun nullSafety() {
     val c: String? = someUnknownType as? String
 
     // Can use the safe call operator as an alternative to null-guard statements
-    b?.let { found ->
-        println("Found string with length: ${found.length}")
+    c?.let {
+        println("Found string: $it")
     }
 
     // Smart casts, the compiler will let you use a nullable type as a
@@ -267,12 +262,12 @@ fun classDefinitions() {
     }
     */
 
-    // Kotlin equivalent (but immutable):
-    class Person(val name: String, val age: Int)
+    // Kotlin equivalent:
+    class Person(var name: String, var age: Int)
 
     val jack = Person("Jack", 1)
 
-    // With default values and named arguments:
+    // With default values, named arguments and immutable members:
     class PersonV2(val name: String = "unknown", val age: Int = 0)
 
     val jackV2 = PersonV2("Jack")
@@ -321,7 +316,13 @@ fun properties() {
     user.name = "Piet"
     user.postCode = "7141dc"
 
-    println("${user.name} lives at ${user.postCode}")
+    println(
+        """
+        (Multi-line strings are supported as well)
+        ${user.name} lives at:
+        ${user.postCode}
+     """.trimIndent()
+    )
 
     // Or using #with: (also look at #let, #apply, #repeat, ...)
     with(user) {
@@ -374,15 +375,16 @@ fun operatorOverloading() {
     // https://kotlinlang.org/docs/reference/operator-overloading.html
 }
 
+
+object PersonAsSingleton {
+    const val name = "Christopher"
+}
+
 // Can't define (companion) objects in a local scope
 class PersonWithStatics(val name: String) {
     companion object {
         val acceptableNames = listOf("Jan", "Piet")
     }
-}
-
-object PersonAsSingleton {
-    const val name = "Christopher"
 }
 
 fun statics() {
