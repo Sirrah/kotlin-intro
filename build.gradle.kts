@@ -1,11 +1,7 @@
 plugins {
-    kotlin("jvm") version "1.3.21"
+    kotlin("jvm") version "1.7.20"
 }
 
 repositories {
-    jcenter()
-}
-
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
+    mavenCentral()
 }
