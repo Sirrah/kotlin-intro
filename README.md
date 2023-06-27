@@ -185,8 +185,7 @@ class User(val name: String = "", val age: Int = 0) {
 val junior = User("Jack") + User("Jackie")
 ```
 
-## Automatic Kotlin Conversion
-
+## Java to Kotlin Conversion
 Via action menu:
 Linux: `ctrl-shift-a`
 Mac OS: `Command-Shift-a`

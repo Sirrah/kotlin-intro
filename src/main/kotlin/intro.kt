@@ -123,25 +123,25 @@ fun lambdas() {
 
     println("\nFunctional operators")
     numbers
-        .filter { number -> number > 1 }
-        .map { it * 2 }
-        .map {
-            print(it)
-            it
-        }
-        .take(1) // prints '468', the operators are not lazy by default.
+            .filter { number -> number > 1 }
+            .map { it * 2 }
+            .map {
+                print(it)
+                it
+            }
+            .take(1) // prints '468', the operators are not lazy by default.
 
     println("\nUse lazy evaluation through the Sequence interface")
     numbers
-        .asSequence()
-        .filter { number -> number > 1 }
-        .map { it * 2 }
-        .map {
-            print(it)
-            it
-        }
-        .take(1)
-        .toList() // prints only '4'
+            .asSequence()
+            .filter { number -> number > 1 }
+            .map { it * 2 }
+            .map {
+                print(it)
+                it
+            }
+            .take(1)
+            .toList() // prints only '4'
 
     println("\nCreate convenient helper methods")
 
@@ -213,8 +213,10 @@ fun nullSafety() {
     // !!Operator to force non-null:
 //    val lengthOrThrow = b!!.length
 
+    // Kotlin.Any is Kotlin's equivalent to 'Object'
+    val someUnknownType: Any = "Mystery Box"
+
     // Safe casts:
-    val someUnknownType: Any = "Mystery Box" // Kotlin.Any is Kotlin's equivalent to 'Object'
     val c: String? = someUnknownType as? String
 
     // Can use the safe call operator as an alternative to null-guard statements
@@ -322,7 +324,8 @@ fun properties() {
             get() = "$numbers $letters"
             set(value) {
                 // Triple quotes so we don't have to use double escapes
-                val matches = Regex("""(\d{4})\s*([a-zA-Z]{2})""").find(value) ?: throw IllegalArgumentException()
+                val matches = Regex("""(\d{4})\s*([a-zA-Z]{2})""")
+                        .find(value) ?: throw IllegalArgumentException()
 
                 numbers = matches.groupValues[1].toInt()
                 letters = matches.groupValues[2].uppercase()
@@ -331,14 +334,13 @@ fun properties() {
 
     val user = Person()
     user.name = "Piet"
-    user.postCode = "7141dc"
+    user.postCode = "7141cd"
 
-    println(
-        """
+    println("""
         (Multi-line strings are supported as well)
         ${user.name} lives at:
         ${user.postCode}
-     """.trimIndent()
+    """.trimIndent()
     )
 
     // Or using #with: (also look at #let, #apply, #repeat, ...)
@@ -354,17 +356,17 @@ fun properties() {
  * Extension Methods
  */
 fun extensionMethods() {
-    class Person(var name: String, var age: Int)
+    class Person(val name: String, val age: Int)
 
     val jack = Person("Jack", 1)
 
     // Easily add helper methods to existing classes:
-    fun Person.sayHello() = println("Hello, my name is $name")
+    fun Person.sayHello() = println("Hello, my name is $name and I'm $age years old")
 
     jack.sayHello()
 
     // Properties can be added as well
-    println("There are ${1.seconds} in ${1.hours}")
+    println("${3600.seconds} is the same as ${1.hours}")
 }
 
 /**
@@ -372,12 +374,12 @@ fun extensionMethods() {
  */
 fun operatorOverloading() {
     data class Person(val name: String = "", val age: Int = 0) {
-        fun celebrateBirthday(): Person = copy(name = name, age = age + 1)
+        fun celebrateBirthday() = copy(name = name, age = age + 1)
 
         /**
          * Create a new Person by addition
          */
-        operator fun plus(partner: Person): Person = Person(name = "$name ${partner.name} Junior", age = 0)
+        operator fun plus(partner: Person) = Person(name = "$name ${partner.name} Junior", age = 0)
     }
 
     var junior = Person("Jack") + Person("Jill")
