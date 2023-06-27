@@ -1,3 +1,5 @@
+import Direction.*
+
 /**
  * Code available at https://github.com/Sirrah/kotlin-intro
  */
@@ -59,11 +61,10 @@ fun ifExpressions() {
 /**
  * When Expressions / Switch statements
  */
-fun whenExpressions() {
+fun whenExpressions(x: Int = 4) {
     val mySpecialNumbers = listOf(1, 5, 8)
 
     // Instead of `switch` there is `when`:
-    val x = 4
     val myString = when (x) {
         0, 1 -> "x == 0 or x == 1"
         in 1..10 -> "x is in the range"
@@ -79,9 +80,36 @@ fun whenExpressions() {
 
     // No initial argument required, just add any boolean expression:
     when {
-        x == 5 -> print("x is five")
-        x != 3 -> print("x is not three")
+        x == 5 -> println("x is five")
+        x != 3 -> println("x is not three")
     }
+
+    // When expressions must be exhaustive, when-statements don't need to except
+    // when used on an enum.
+    // This is  OK:
+    when (x) {
+        1 -> println("x is one")
+        4 -> println("x is four")
+    }
+
+    // but this won't compile if any branch, or else is missing:
+    val direction = NORTH;
+    when (direction) {
+        NORTH -> println("North")
+        SOUTH -> println("South")
+        WEST -> println("West")
+        EAST -> println("East")
+    }
+
+    // also NOT ok and will not compile:
+//    val myString2 = when (x) {
+//        1 -> "x is one"
+//        4 -> "x is four"
+//    }
+}
+
+enum class Direction {
+    NORTH, SOUTH, WEST, EAST
 }
 
 fun lambdas() {
@@ -140,7 +168,7 @@ fun lambdas() {
     println("Tail recursion benchmark")
 
     // In order to apply the compiler optimization the method needs
-    // to be in the right form and it needs the tailrec keyword.
+    // to be in the right form, and it needs the "tailrec" keyword.
     //
     // With these pre-conditions the compiler will be able to compile
     // this to a while-loop giving a speed boost and preventing a
