@@ -26,7 +26,7 @@ fun main() {
 
     extensionMethods()
 
-    statics()
+    staticProperties()
 }
 
 /**
@@ -403,20 +403,19 @@ fun operatorOverloading() {
     // https://kotlinlang.org/docs/reference/operator-overloading.html
 }
 
-
 object PersonAsSingleton {
     const val name = "Christopher"
 }
 
-// Can't define (companion) objects in a local scope
-class PersonWithStatics(val name: String) {
+class PersonWithStaticProperties(val name: String) {
+    // Static properties are all placed in a companion object
     companion object {
         val acceptableNames = listOf("Jan", "Piet")
     }
 }
 
-fun statics() {
-    PersonWithStatics.acceptableNames
+fun staticProperties() {
+    PersonWithStaticProperties.acceptableNames
 
     println("There can be only one: ${PersonAsSingleton.name}")
 }
