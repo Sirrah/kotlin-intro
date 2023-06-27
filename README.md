@@ -190,6 +190,7 @@ val junior = User("Jack") + User("Jackie")
 Via action menu:
 Linux: `ctrl-shift-a`
 Mac OS: `Command-Shift-a`
+type: "Convert Java File to Kotlin File"
 
 Direct key binding:
 Linux: `ctrl-alt-shift-k`
@@ -197,7 +198,5 @@ Mac OS: `Option-Shift-Command-K`
 
 Steps for conversion:
 1. Apply automatic conversion
-2. Commit to Git
+2. Commit to Git with "Extra commit for .java > .kt renames" enabled
 3. Manual cleanup
-4. Commit to Git
-5. Profit
