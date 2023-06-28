@@ -163,7 +163,7 @@ fun lambdas() {
         println("Execution took $elapsed, result: '$result'")
     }
 
-    fun factorial(n: Long = 10, accum: Long = 1): Long = when {
+    tailrec fun factorial(n: Long = 10, accum: Long = 1): Long = when {
         n <= 1 -> accum
         else -> factorial(n - 1, n * accum)
     }
