@@ -146,27 +146,24 @@ fun lambdas() {
     println("\nCreate convenient helper methods")
 
     @OptIn(ExperimentalTime::class)
-    fun stopwatch(block: () -> Unit) {
+    fun <T> stopwatch(block: () -> T) {
         val mark = TimeSource.Monotonic.markNow()
 
-        block()
+        val result = block()
 
         val elapsed = mark.elapsedNow()
 
-        println("Execution took $elapsed")
+        println("Execution took $elapsed, result: '$result'")
     }
 
-    fun factorial(n: Long = 0, accum: Long = 1): Long {
-        return if (n <= 1) {
-            n * accum
-        } else {
-            factorial(n - 1, n * accum)
-        }
+    fun factorial(n: ULong = 10UL, accum: ULong = 1UL): ULong = when {
+        n <= 1UL -> accum
+        else -> factorial(n - 1UL, n * accum)
     }
 
     // Use a lambda, if the last argument is a lambda, you can omit the braces
     stopwatch {
-        factorial(1000)
+        factorial(10UL)
     }
 
     // Or use a method reference (same syntax as Java8) if there are no method arguments
@@ -180,20 +177,20 @@ fun lambdas() {
     // With these pre-conditions the compiler will be able to compile
     // this to a while-loop giving a speed boost and preventing a
     // stack overflow.
-    tailrec fun factorialTailRec(n: Long, accum: Long = 1): Long {
-        return if (n <= 1) {
-            n * accum
-        } else {
-            factorialTailRec(n - 1, n * accum)
+    tailrec fun factorialTailRec(n: ULong = 1UL, accum: ULong = 1UL): ULong = when {
+        n <= 1UL -> accum
+        else -> {
+            //println("rec: $n -> ${n*accum}")
+            factorialTailRec(n - 1UL, n * accum)
         }
     }
 
-    val n = 50_000L
+    val n = 10_000UL
     stopwatch {
         try {
             factorial(n)
         } catch (e: StackOverflowError) {
-            println(e)
+            e
         }
     }
 
