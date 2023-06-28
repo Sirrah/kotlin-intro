@@ -429,6 +429,7 @@ data class PersonKDoc(val name: String = suggestedNames.first()) {
     }
 }
 
+// This shows as formatted code snippet similar to @snippet in Java 18
 fun examplesForPerson() {
     val jan = PersonKDoc()
     val john = PersonKDoc("John")
