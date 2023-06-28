@@ -129,7 +129,7 @@ fun lambdas() {
             print(it)
             it
         }
-        .take(1) // This will still print '468', the operators are not lazy by default.
+        .take(1) // prints '468', the operators are not lazy by default.
 
     println("\nUse lazy evaluation through the Sequence interface")
     numbers
@@ -141,7 +141,7 @@ fun lambdas() {
             it
         }
         .take(1)
-        .toList() // will print only '4'
+        .toList() // prints only '4'
 
     println("\nCreate convenient helper methods")
 
@@ -168,16 +168,20 @@ fun lambdas() {
         else -> factorial(n - 1, n * accum)
     }
 
-    // Use a lambda
+    // Wrap whatever we want to measure inside a lambda
     stopwatch({ factorial(10) })
 
-    // if the last argument is a lambda, you can omit the braces
+    // if the last argument is a lambda, we can omit the braces
     stopwatch {
         factorial(10)
     }
 
     // Or use a method reference (same syntax as Java8) if there are no method arguments
     stopwatch(::factorial)
+
+    // Lambdas combined with static extension methods form the building
+    // blocks for relatively simple helper methods (.apply, .buildList)
+    // all the way up to frameworks like Jetpack Compose.
 }
 
 /**
