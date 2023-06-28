@@ -145,6 +145,13 @@ fun lambdas() {
 
     println("\nCreate convenient helper methods")
 
+    val immutableListOfNames = buildList {
+        add("John")
+        add("Doe")
+        addAll(suggestedNames)
+    }
+    // immutableListOfNames.add("Can't touch this")
+
     @OptIn(ExperimentalTime::class)
     fun <T> stopwatch(block: () -> T) {
         val mark = TimeSource.Monotonic.markNow()
