@@ -163,47 +163,21 @@ fun lambdas() {
         println("Execution took $elapsed, result: '$result'")
     }
 
-    fun factorial(n: ULong = 10UL, accum: ULong = 1UL): ULong = when {
-        n <= 1UL -> accum
-        else -> factorial(n - 1UL, n * accum)
+    fun factorial(n: Long = 10, accum: Long = 1): Long = when {
+        n <= 1 -> accum
+        else -> factorial(n - 1, n * accum)
     }
 
-    // Use a lambda, if the last argument is a lambda, you can omit the braces
+    // Use a lambda
+    stopwatch({ factorial(10) })
+
+    // if the last argument is a lambda, you can omit the braces
     stopwatch {
-        factorial(10UL)
+        factorial(10)
     }
 
     // Or use a method reference (same syntax as Java8) if there are no method arguments
     stopwatch(::factorial)
-
-    println("Tail recursion benchmark")
-
-    // In order to apply the compiler optimization the method needs
-    // to be in the right form, and it needs the "tailrec" keyword.
-    //
-    // With these pre-conditions the compiler will be able to compile
-    // this to a while-loop giving a speed boost and preventing a
-    // stack overflow.
-    tailrec fun factorialTailRec(n: ULong = 1UL, accum: ULong = 1UL): ULong = when {
-        n <= 1UL -> accum
-        else -> {
-            //println("rec: $n -> ${n*accum}")
-            factorialTailRec(n - 1UL, n * accum)
-        }
-    }
-
-    val n = 10_000UL
-    stopwatch {
-        try {
-            factorial(n)
-        } catch (e: StackOverflowError) {
-            e
-        }
-    }
-
-    stopwatch {
-        factorialTailRec(n)
-    }
 }
 
 /**
