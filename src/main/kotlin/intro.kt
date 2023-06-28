@@ -2,6 +2,8 @@ import Direction.*
 import Person.Companion.suggestedNames
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
+import kotlin.time.TimeSource
 
 /**
  * Code available at https://github.com/Sirrah/kotlin-intro
@@ -143,17 +145,18 @@ fun lambdas() {
 
     println("\nCreate convenient helper methods")
 
+    @OptIn(ExperimentalTime::class)
     fun stopwatch(block: () -> Unit) {
-        val t1 = System.currentTimeMillis()
+        val mark = TimeSource.Monotonic.markNow()
 
         block()
 
-        val t2 = System.currentTimeMillis()
+        val elapsed = mark.elapsedNow()
 
-        println("Execution took ${t2 - t1} ms")
+        println("Execution took $elapsed")
     }
 
-    fun factorial(n: Long, accum: Long = 1): Long {
+    fun factorial(n: Long = 0, accum: Long = 1): Long {
         return if (n <= 1) {
             n * accum
         } else {
@@ -167,7 +170,7 @@ fun lambdas() {
     }
 
     // Or use a method reference (same syntax as Java8) if there are no method arguments
-    // stopwatch(::factorial)
+    stopwatch(::factorial)
 
     println("Tail recursion benchmark")
 
