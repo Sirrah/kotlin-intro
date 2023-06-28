@@ -1,4 +1,7 @@
 import Direction.*
+import Person.Companion.suggestedNames
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Code available at https://github.com/Sirrah/kotlin-intro
@@ -73,6 +76,7 @@ fun whenExpressions(x: Int = 4) {
             print(message)
             message // The last expression is the returned result
         }
+
         !in 10..20 -> "x is outside the range"
         else -> "none of the above"
     }
@@ -336,7 +340,7 @@ fun properties() {
                 val matches = Regex("""(\d{4})\s*([a-zA-Z]{2})""").find(value) ?: throw IllegalArgumentException()
 
                 numbers = matches.groupValues[1].toInt()
-                letters = matches.groupValues[2].toUpperCase()
+                letters = matches.groupValues[2].uppercase()
             }
     }
 
@@ -371,11 +375,11 @@ fun extensionMethods() {
 
     // Easily add helper methods to existing classes:
     fun Person.sayHello() = println("Hello, my name is $name")
+
     jack.sayHello()
 
-    // Easily display a Toast message in Android (example from Anko)
-//    fun Context.toast(message: Int) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-//    toast("hello") // anywhere in a subclass of Context (Activity, Fragment, etc)
+    // Properties can be added as well
+    println("There are ${1.seconds} in ${1.hours}")
 }
 
 /**
@@ -383,7 +387,7 @@ fun extensionMethods() {
  */
 fun operatorOverloading() {
     data class Person(val name: String = "", val age: Int = 0) {
-        fun celebrateBirthday(): Person = copy(name, age + 1)
+        fun celebrateBirthday(): Person = copy(name = name, age = age + 1)
 
         /**
          * Create a new Person by addition
@@ -403,21 +407,51 @@ fun operatorOverloading() {
     // https://kotlinlang.org/docs/reference/operator-overloading.html
 }
 
+class Person(val name: String) {
+    // Static properties are all placed in a companion object
+    companion object {
+        val suggestedNames = listOf("Jan", "Piet")
+    }
+}
+
 object PersonAsSingleton {
     const val name = "Christopher"
 }
 
-class PersonWithStaticProperties(val name: String) {
-    // Static properties are all placed in a companion object
+fun staticProperties() {
+    println("Some name suggestions: ${Person.suggestedNames}")
+
+    println("There can be only one: ${PersonAsSingleton.name}")
+}
+
+/**
+ * There is not much to this [PersonKDoc] but I'd *like* to show some [KDoc](https://kotlinlang.org/docs/kotlin-doc.html) features.
+ *
+ * It's a mixture of
+ * 1. [Javadoc](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javadoc.html) and
+ * 2. [Markdown](https://www.markdownguide.org/)
+ *
+ * @param name how to refer to this [PersonKDoc] in a conversation
+ * @property suggestedNames some name suggestions as a [List] of [Strings][String]
+ * @constructor spawn a new [PersonKDoc]
+ *
+ * @throws NoSuchElementException if [suggestedNames] is empty
+ *
+ * @sample examplesForPerson
+ *
+ * @see staticProperties
+ * @see properties
+ */
+data class PersonKDoc(val name: String = suggestedNames.first()) {
     companion object {
-        val acceptableNames = listOf("Jan", "Piet")
+        val suggestedNames = listOf("Jan", "Piet")
     }
 }
 
-fun staticProperties() {
-    PersonWithStaticProperties.acceptableNames
-
-    println("There can be only one: ${PersonAsSingleton.name}")
+fun examplesForPerson() {
+    val jan = PersonKDoc()
+    val john = PersonKDoc("John")
+    val copy = jan.copy(name = john.name)
 }
 
 // Also look into coroutines:

@@ -32,10 +32,10 @@ public class ConvertMe
 		this.age = age;
 	}
 
-	private static final List<String> ACCEPTABLE_NAMES = Arrays.asList( "Jan", "Piet");
+	private static final List<String> SUGGESTED_NAMES = Arrays.asList( "Jan", "Piet");
 
-	public static List<String> getAcceptableNames()
+	public static List<String> getSuggestedNames()
 	{
-		return ACCEPTABLE_NAMES;
+		return SUGGESTED_NAMES;
 	}
 }
