@@ -6,7 +6,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.TimeSource
 
 /**
- * Code available at https://github.com/Sirrah/kotlin-intro
+ * Code available at [github.com/Sirrah/kotlin-intro](https://github.com/Sirrah/kotlin-intro)
  */
 fun main() {
     println("No arguments needed!")
