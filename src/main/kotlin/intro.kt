@@ -148,13 +148,6 @@ fun lambdas() {
 
     println("\nCreate convenient helper methods")
 
-    val immutableListOfNames = buildList {
-        add("John")
-        add("Doe")
-        addAll(suggestedNames)
-    }
-     //immutableListOfNames.add("Can't touch this")
-
     @OptIn(ExperimentalTime::class)
     fun <T> stopwatch(block: () -> T) {
         val mark = TimeSource.Monotonic.markNow()
@@ -181,6 +174,14 @@ fun lambdas() {
 
     // Or use a method reference (same syntax as Java8) if there are no method arguments
     stopwatch(::factorial)
+
+    // The standard library has many of these helper methods
+    val immutableListOfNames = buildList {
+        add("John")
+        add("Doe")
+        addAll(suggestedNames)
+    }
+    //immutableListOfNames.add("Can't touch this")
 
     // Lambdas combined with static extension methods form the building
     // blocks for relatively simple helper methods (.apply, .buildList)
