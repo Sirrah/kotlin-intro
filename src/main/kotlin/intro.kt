@@ -67,7 +67,7 @@ fun ifExpressions() {
  * When Expressions / Switch statements
  */
 fun whenExpressions(x: Int = 4) {
-    val mySpecialNumbers = listOf(1, 5, 8)
+    val mySpecialNumbers = setOf(1, 5, 8)
 
     // Instead of `switch` there is `when`:
     val myString = when (x) {
@@ -80,6 +80,11 @@ fun whenExpressions(x: Int = 4) {
         }
 
         !in 10..20 -> "x is outside the range"
+
+        // Not allowed:
+        // !3 -> "not 3"
+        // >1 -> "more than 1"
+
         else -> "none of the above"
     }
     println("\nWhen x=$x => $myString")
@@ -122,8 +127,7 @@ fun lambdas() {
     val numbers = listOf(0, 1, 2, 3, 4)
 
     println("\nFunctional operators")
-    numbers
-            .filter { number -> number > 1 }
+    numbers.filter { number -> number > 1 }
             .map { it * 2 }
             .map {
                 print(it)
@@ -132,8 +136,7 @@ fun lambdas() {
             .take(1) // prints '468', the operators are not lazy by default.
 
     println("\nUse lazy evaluation through the Sequence interface")
-    numbers
-            .asSequence()
+    numbers.asSequence()
             .filter { number -> number > 1 }
             .map { it * 2 }
             .map {
@@ -150,7 +153,7 @@ fun lambdas() {
         add("Doe")
         addAll(suggestedNames)
     }
-    // immutableListOfNames.add("Can't touch this")
+     //immutableListOfNames.add("Can't touch this")
 
     @OptIn(ExperimentalTime::class)
     fun <T> stopwatch(block: () -> T) {
