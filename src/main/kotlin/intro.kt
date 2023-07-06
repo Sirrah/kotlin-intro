@@ -379,8 +379,6 @@ fun extensionMethods() {
  */
 fun operatorOverloading() {
     data class Person(val name: String = "", val age: Int = 0) {
-        fun celebrateBirthday() = copy(name = name, age = age + 1)
-
         /**
          * Create a new Person by addition
          */
@@ -390,7 +388,8 @@ fun operatorOverloading() {
     var junior = Person("Jack") + Person("Jill")
 
     // Or using extension methods:
-    operator fun Person.inc(): Person = celebrateBirthday()
+    operator fun Person.inc(): Person = copy(name = name, age = age + 1)
+
     junior++
 
     println("${junior.name} just turned ${junior.age}!")
@@ -424,6 +423,7 @@ fun staticProperties() {
  * 2. [Markdown](https://www.markdownguide.org/)
  *
  * @param name how to refer to this [PersonKDoc] in a conversation
+ * @param age age in years
  * @property suggestedNames some name suggestions as a [List] of [Strings][String]
  * @constructor spawn a new [PersonKDoc]
  *
@@ -434,7 +434,7 @@ fun staticProperties() {
  * @see staticProperties
  * @see properties
  */
-data class PersonKDoc(val name: String = suggestedNames.first()) {
+data class PersonKDoc(val name: String = suggestedNames.first(), val age: Int = 0) {
     companion object {
         val suggestedNames = listOf("Jan", "Piet")
     }
@@ -445,6 +445,7 @@ fun examplesForPerson() {
     val jan = PersonKDoc()
     val john = PersonKDoc("John")
     val copy = jan.copy(name = john.name)
+    val (name, age) = jan
 }
 
 // Also look into coroutines:
