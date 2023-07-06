@@ -128,23 +128,23 @@ fun lambdas() {
 
     println("\nFunctional operators")
     numbers.filter { number -> number > 1 }
-            .map { it * 2 }
-            .map {
-                print(it)
-                it
-            }
-            .take(1) // prints '468', the operators are not lazy by default.
+        .map { it * 2 }
+        .map {
+            print(it)
+            it
+        }
+        .take(1) // prints '468', the operators are not lazy by default.
 
     println("\nUse lazy evaluation through the Sequence interface")
     numbers.asSequence()
-            .filter { number -> number > 1 }
-            .map { it * 2 }
-            .map {
-                print(it)
-                it
-            }
-            .take(1)
-            .toList() // prints only '4'
+        .filter { number -> number > 1 }
+        .map { it * 2 }
+        .map {
+            print(it)
+            it
+        }
+        .take(1)
+        .toList() // prints only '4'
 
     println("\nCreate convenient helper methods")
 
@@ -329,7 +329,7 @@ fun properties() {
             set(value) {
                 // Triple quotes so we don't have to use double escapes
                 val matches = Regex("""(\d{4})\s*([a-zA-Z]{2})""")
-                        .find(value) ?: throw IllegalArgumentException()
+                    .find(value) ?: throw IllegalArgumentException()
 
                 numbers = matches.groupValues[1].toInt()
                 letters = matches.groupValues[2].uppercase()
@@ -340,7 +340,8 @@ fun properties() {
     user.name = "Piet"
     user.postCode = "7141cd"
 
-    println("""
+    println(
+        """
         (Multi-line strings are supported as well)
         ${user.name} lives at:
         ${user.postCode}
