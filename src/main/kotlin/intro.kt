@@ -2,7 +2,6 @@ import Direction.*
 import Person.Companion.suggestedNames
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
 import kotlin.time.TimeSource
 
 /**
@@ -148,7 +147,6 @@ fun lambdas() {
 
     println("\nCreate convenient helper methods")
 
-    @OptIn(ExperimentalTime::class)
     fun <T> stopwatch(block: () -> T) {
         val mark = TimeSource.Monotonic.markNow()
 
